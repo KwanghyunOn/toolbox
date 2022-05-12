@@ -15,7 +15,7 @@ class SRTransform(PT.Compose):
                 T.ToTensor(),
                 T.Normalize(mean=0.5, std=0.5),
                 PT.RandomHorizontalFlip(),
-            ]
+            ])
         else:
             if patch_size is not None:
                 transforms.append(PT.CentorCrop(size=patch_size))
