@@ -32,16 +32,9 @@ class DIV2K(ImageDataset):
     def __init__(
         self, root, scale, train, transform=None, is_binary=True,
     ):
-        self.data_len = data_len
         split = "train" if train else "valid"
         deg = "bicubic"
         hr_data_dir = os.path.join(root, f"DIV2K_{split}_HR")
         lr_data_dir = os.path.join(root, f"DIV2K_{split}_LR_{deg}", f"X{scale}_upsampled")
         data_dirs = {"hr": hr_data_dir, "lr": lr_data_dir}
         super().__init__(data_dirs, transform, is_binary, train)
-
-    def __len__(self):
-        if self.data_len is not None and self.data_len > 0:
-            return self.data_len
-        else:
-            return super().__len__()
