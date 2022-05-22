@@ -11,16 +11,20 @@ from resize import resize
 
 def main():
     root = "/home/kwanghyunon/data/FFHQ/"
-    src_dir = "thumbnails128x128"
-    save_dir = "bicubic32x32"
+    src_dir = "images1024x1024"
+    save_dir = "custom_downsampling/bicubic256x256"
     os.makedirs(os.path.join(root, save_dir), exist_ok=True)
     scale = 0.25
+    ignore_subdirs = True
 
     img_paths = _list_image_files_recursively(os.path.join(root, src_dir))
     for img_path in tqdm(img_paths):
         abs_dir, filename = os.path.split(img_path)
-        rel_dir = os.path.relpath(abs_dir, os.path.join(root, src_dir))
-        abs_save_dir = os.path.join(root, save_dir, rel_dir)
+        if ignore_subdirs:
+            abs_save_dir = os.path.join(root, save_dir)
+        else:
+            rel_dir = os.path.relpath(abs_dir, os.path.join(root, src_dir))
+            abs_save_dir = os.path.join(root, save_dir, rel_dir)
         os.makedirs(abs_save_dir, exist_ok=True)
 
         img = torchvision.io.read_image(img_path)
